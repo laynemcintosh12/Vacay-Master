@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <tr class="daysHeader">
+            {% for date in dates %}
+            <th>{{ date }}</th>
+            {% endfor %}
+        </tr>
+        {% for hour in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM'] %}
+        <tr class="tableRow">
+            <td>{{ hour }}</td>
+            {% for date in dates %}
+                <td class="tableInput">
+                    {% if not loop.last %}
+                        <input type="text" class="tableText">
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

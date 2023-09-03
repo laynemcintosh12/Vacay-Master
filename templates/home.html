@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacay Master</title>
-</head>
-<body>
-    <h1>Please select a destination</h1>
-    <form action="/route" method="POST">
-        <input name="dest" id="dest" type="text" placeholder="enter a destination">
-        <button type="submit">Submit!</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    <h1>Start Planning Your Next Vacation!</h1>
+    <h3>Please Choose a Destination Below</h2>
+    <ul>
+      {% for destination in destinations %}
+          <li>
+              <h4 class="destName">{{ destination.name }}</h4>
+              <p class="destDesc">{{ destination.description }}</p>
+          </li>
+      {% endfor %}
+  </ul>
+  <a class="btn btn-small alert-danger" href="/route">Next</a>
+  <a class="btn btn-small" href="/itin">Iten</a>
+  </div>
+{% endblock %}
