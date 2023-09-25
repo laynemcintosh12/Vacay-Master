@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
+<link rel="stylesheet" href="/static/mytrips.css">
 
-    <h1>My Trips!</h1>
+<div class="container">
+    <h1 class="page-title">My Trips</h1>
+    {% for trip in trips %}
+    <div class="trip-box">
+        <h2 class="trip-name">{{ trip.name }}</h2>
+        <p class="trip-links">
+            <a href="/itin/{{ trip.trip_id }}" class="btn btn-info">View Itinerary</a>
+            <a href="/blog/{{ trip.dest_id }}" class="btn btn-primary">View Destination Blog</a>
+            
+            <form action="/remove_trip/{{ trip.trip_id }}" method="post">
+                <button type="submit" class="btn btn-danger">Remove Trip</button>
+            </form>
+        </p>
+    </div>
+    {% endfor %}
+</div>
 
-    
 {% endblock %}

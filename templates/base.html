@@ -9,11 +9,19 @@
 </head>
 <body>
     <nav>
-        <a href="/">Home</a>
         <ul>
+            <a href="/">Home</a>
             {% if 'username' in session %}
-            <li><a href="/logout">Logout</a></li>
-            <li><a href="/trips">My Trips</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Other</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/trips">My Trips</a></li>
+                    <li><a href="/route">Maps</a></li>
+                    <li><a href="/dest">Destinations</a></li>
+                    <li><a href="/itin">Itinerary Builder</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </li>
             {% else %}
             <li><a href="/login">Login</a></li>
             <li><a href="/signup">Register</a></li>

@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+<link rel="stylesheet" href="/static/map.css">
     <div class="container">
-        <h1 class="text-center">
-            Find route and time
-        </h1>
+        <h1 class="text-center">Find the Perfect Route!</h1>
         <form class="form-horizontal">
             <div class="form-group">
                 <label for="from">From:</label>
@@ -11,10 +10,11 @@
             </div>
             <div class="form-group">
                 <label for="from">To:</label>
-                <input type="text" class="form-control" placeholder="Origin" id="to">
+                <input type="text" class="form-control" placeholder="Destination" id="to"
+                    value="{% if destination %}{{ destination.name }}{% endif %}">
             </div>
             <div class="form-group">
-                <button class="btn btn-info btn-lg" onclick="calcRoute()">get directions</button>
+                <button class="btn btn-info btn-lg" onclick="calcRoute()">Get Directions</button>
             </div>
         </form>
         <div class="container-fluid">

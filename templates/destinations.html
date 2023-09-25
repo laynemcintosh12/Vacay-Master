@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="/static/destinations.css">
+
+<div class="destination-list">
+    <h1 class="page-title">Top Vacation Destinations</h1>
+    <h3 class="sub-title">Click on a destination below to learn more information</h3>
+    <ul class="destination-ul">
+        {% for destination in destinations %}
+            <li class="destination-item">
+                <h4 class="destName"><a href="/blog/{{ destination.dest_id }}">{{ destination.name }}</a></h4>
+                <p class="destDesc">{{ destination.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

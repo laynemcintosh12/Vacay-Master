@@ -1,0 +1,42 @@
+/* styles.css */
+
+.page-title {
+    color: #e74c3c; /* Red page title color */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.error-field {
+    color: #e74c3c; /* Red error text color */
+}
+
+.error-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.form-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #3498db; /* Blue button background color */
+    color: #fff; /* White button text color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

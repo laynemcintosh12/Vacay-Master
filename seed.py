@@ -1,15 +1,19 @@
 from app import app, db
-from models import User, Destination
+from models import User, Destination, Post, Comment
+import random
+import uuid
 
 # Create all database tables
 db.create_all()
 
 # Seed Users
 for i in range(20):
+    unique_id = uuid.uuid4()  # Generate a unique ID
+    email = f'user{unique_id}@example.com'  # Create a unique email address
     user = User(
         username=f'user{i}',
-        password='password',  
-        email=f'user{i}@example.com'
+        password='password',
+        email=email
     )
     db.session.add(user)
 
@@ -43,10 +47,30 @@ destinations_data = [
      "description": "Austin, often referred to as the 'Live Music Capital of the World,' is a dynamic and culturally rich city nestled in the heart of Texas. Known for its vibrant music scene, thriving arts community, and outdoor adventures, Austin offers a unique blend of creativity and Texas charm."}
 ]
 
-for data in destinations_data:
-    destination = Destination(**data)
-    db.session.add(destination)
+# Seed Posts and Comments
+for destination in destinations_data:
+    # Create the Destination object and add it to the session
+    destination_obj = Destination(**destination)
+    db.session.add(destination_obj)
+    db.session.commit()  # Commit this change
 
-# Commit the changes to the database
+    for _ in range(5):  # Create 5 posts for each destination
+        post = Post(
+            dest_id=destination_obj.dest_id,  # Access dest_id from the Destination object
+            title="Sample Post Title",
+            description="Sample Post Description"
+        )
+        db.session.add(post)
+        db.session.commit()
+        
+        for _ in range(2):  # Create 2 comments for each post
+            user_id = random.randint(1, 20)  # Random user_id between 1 and 20
+            comment = Comment(
+                user_id=user_id,
+                post_id=post.post_id,
+                description="Sample Comment Description"
+            )
+            db.session.add(comment)
+
+# Commit all other changes
 db.session.commit()
-

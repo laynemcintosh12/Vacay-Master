@@ -1,4 +1,4 @@
-from wtforms import StringField, PasswordField, IntegerField
+from wtforms import StringField, PasswordField, DateField, TextAreaField, HiddenField
 from wtforms.validators import InputRequired, Length, Email
 from flask_wtf import FlaskForm
 
@@ -31,11 +31,43 @@ class RegisterForm(FlaskForm):
         "Email",
         validators=[InputRequired(), Email(), Length(max=50)],
     )
-"""     address = StringField(
-        "Address",
-        validators=[InputRequired(), Length(max=30)],
-    )
-    phone = IntegerField(
-        "Phone Number",
-        validators=[InputRequired(), Length(min=9, max=11)],
-    ) """
+
+
+
+class CreateTripForm(FlaskForm):
+    """Create Trip Form"""
+
+    trip_name = StringField(
+        'Trip Name',
+        validators=[InputRequired()]
+        )
+    start_date = DateField(
+        'Start Date', 
+        validators=[InputRequired()]
+        )
+    end_date = DateField(
+        'End Date', 
+        validators=[InputRequired()]
+        )
+
+
+
+class PostForm(FlaskForm):
+    """New Post Form"""
+    title = StringField(
+        'Title', 
+        validators=[InputRequired()]
+        )
+    description = TextAreaField(
+        'Description', 
+        validators=[InputRequired()]
+        )
+    
+
+class CommentForm(FlaskForm):
+    """New Comment Form"""
+
+    description = TextAreaField(
+        'Description', 
+        validators=[InputRequired()]
+        )

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="/static/newpostcomment.css">
+
+<div class="container">
+    <h1 class="page-title">Add New Post</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {% for field in form.errors %}
+        <div class="error-field">{{ field }}:
+            <ul class="error-list">
+                {% for error in form.errors[field] %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="form-group">
+            {{ field.label }}
+            <div class="form-input">
+                {{ field }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <button class="btn btn-primary">Create Post</button>
+    </form>
+</div>
+
+{% endblock %}
+

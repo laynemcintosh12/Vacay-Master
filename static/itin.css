@@ -1,0 +1,51 @@
+/* styles.css */
+
+.trip-title {
+    color: #e74c3c; /* Red trip title color */
+}
+
+.itinerary-data {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #555; /* Dark gray itinerary data text color */
+}
+
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.days-header {
+    background-color: #3498db; /* Blue header background color */
+    color: #fff; /* White header text color */
+}
+
+.table-row {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.table-input {
+    padding: 5px;
+}
+
+.table-text {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #3498db; /* Blue button background color */
+    color: #fff; /* White button text color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}

@@ -1,0 +1,52 @@
+/* styles.css */
+
+.page-title {
+    color: #e74c3c; /* Red page title color */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.trip-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.trip-name {
+    color: #3498db; /* Blue trip name color */
+}
+
+.trip-links {
+    margin-top: 10px;
+}
+
+.btn {
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    padding: 10px 20px;
+}
+
+.btn-info {
+    background-color: #3498db; /* Blue button background color */
+    color: #fff; /* White button text color */
+}
+
+.btn-primary {
+    background-color: #2980b9; /* Darker blue button background color */
+    color: #fff; /* White button text color */
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* Red button background color */
+    color: #fff; /* White button text color */
+}

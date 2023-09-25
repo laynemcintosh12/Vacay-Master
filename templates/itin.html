@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
+<link rel="stylesheet" href="/static/itin.css">
 
-
+<h1 class="trip-title">{{ trip.name }}</h1>
+<div class="itinerary-data">
+    {{ itinerary_data }}
+</div>
 <div class="container">
     <table class="table table-bordered table-striped">
-        <tr class="daysHeader">
+        <tr class="days-header">
+            <th></th>
             {% for date in dates %}
             <th>{{ date }}</th>
             {% endfor %}
         </tr>
-        {% for hour in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM'] %}
-        <tr class="tableRow">
+        {% for hour in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'] %}
+        {% set outerloop = loop %}
+        <tr class="table-row">
             <td>{{ hour }}</td>
             {% for date in dates %}
-                <td class="tableInput">
-                    {% if not loop.last %}
-                        <input type="text" class="tableText">
+                <td class="table-input" row="{{ outerloop.index }}" col="{{ loop.index }}">
+                    {% if date != '' and hour != '' %}
+                        <textarea type="text" class="table-text">{{ itinerary_data[date][hour] }}</textarea>
+                    {% else %}
+                        <textarea type="text" class="table-text">hello</textarea>
                     {% endif %}
                 </td>
             {% endfor %}
@@ -23,5 +31,10 @@
         {% endfor %}
     </table>
 </div>
+<div class="text-center">
+    <a href="/route" class="btn btn-primary">Go to Route</a>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.js"></script>
+<script src="/static/itinerary.js"></script>
 
 {% endblock %}

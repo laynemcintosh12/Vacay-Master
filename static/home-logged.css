@@ -1,0 +1,55 @@
+body {
+    background-color: #fff2bd; /* Light yellow background */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.welcome-heading {
+    color: #e74c3c; /* Red heading */
+}
+
+.sub-heading {
+    font-size: 18px;
+    color: #3498db; /* Blue text */
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.error-field {
+    color: #e74c3c; /* Red error text */
+}
+
+.error-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 5px;
+}
+
+.form-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #3498db; /* Blue button background */
+    color: #fff; /* White button text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}

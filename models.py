@@ -11,20 +11,18 @@ def connect_db(app):
 
 
 class User(db.Model):
-    """User model."""
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String)
     password = db.Column(db.String)
-    email = db.Column(db.String)
+    email = db.Column(db.String, unique=True)
 
-    trips = db.relationship('Trips', backref='user')
-    comments = db.relationship('Comments', backref='user')
+    trips = db.relationship('Trip', backref='user')
+    comments = db.relationship('Comment', backref='user')
 
     @classmethod
     def register(cls, username, password, email):
-        """Register a user and encrypt their password"""
         hashed = bcrypt.generate_password_hash(password).decode('utf-8')
         user = cls(username=username, password=hashed, email=email)
         db.session.add(user)
@@ -32,70 +30,64 @@ class User(db.Model):
     
     @classmethod
     def authenticate(cls, username, password):
-        """Check if user exists and authenticate with password"""
         user = cls.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
             return user
         else:
-            return False
+            return None
 
 
 
-class Trips(db.Model):
-    """Trips model."""
+class Trip(db.Model):
     __tablename__ = "trips"
 
     trip_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'))
-    iten_id = db.Column(db.Integer, db.ForeignKey('itineraries.iten_id'))
+    name = db.Column(db.String)
+    dest_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'), nullable=True)
+    itin_id = db.Column(db.Integer, db.ForeignKey('itineraries.itin_id'), nullable=True)
+
+
+
+class Itinerary(db.Model):
+    __tablename__ = "itineraries"
+
+    itin_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    trip_id = db.Column(db.Integer, db.ForeignKey('trips.trip_id'))
+    date = db.Column(db.String)
+    hour = db.Column(db.Integer)
+    val = db.Column(db.String)
+
+
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+
+    comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'))
+    description = db.Column(db.String)
 
 
 
 class Destination(db.Model):
-    """Destination model."""
     __tablename__ = "destinations"
 
     dest_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String)
     description = db.Column(db.String)
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'))
+
+    posts = db.relationship('Post', back_populates='destination')
 
 
 
-class Itinerary(db.Model):
-    """Itinerary model."""
-    __tablename__ = "itineraries"
+class Post(db.Model):
+    __tablename__ = "posts"
 
-    iten_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    dates = db.Column(db.String)
-    comments = db.Column(db.String, nullable=True)
-    budget = db.Column(db.Integer, nullable=True)
+    post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    dest_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'))
+    title = db.Column(db.String)
+    description = db.Column(db.String)
 
-
-
-class Comments(db.Model):
-    """Comments model."""
-    __tablename__ = "comments"
-
-    comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'))
-
-
-
-class UsersTrips(db.Model):
-    """Mapping of users to trips."""
-    __tablename__ = "users_trips"
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-    trip_id = db.Column(db.Integer, db.ForeignKey('trips.trip_id'), primary_key=True)
-
-
-
-class UsersComments(db.Model):
-    """Mapping of users to comments."""
-    __tablename__ = "users_comments"
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.comment_id'), primary_key=True)
+    destination = db.relationship('Destination', back_populates='posts')

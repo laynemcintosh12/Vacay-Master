@@ -1,0 +1,56 @@
+/* styles.css */
+
+.destination-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.destination-title {
+    color: #e74c3c; /* Red heading color */
+}
+
+.post-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.post-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.post-name {
+    color: #3498db; /* Blue post name color */
+}
+
+.post-description {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* Red button background color */
+    color: #fff; /* White button text color */
+}
+
+.btn-info {
+    background-color: #3498db; /* Blue button background color */
+    color: #fff; /* White button text color */
+}
+
+.btn-small {
+    font-size: 14px;
+}

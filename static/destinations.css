@@ -1,0 +1,41 @@
+/* styles.css */
+
+.destination-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a card effect */
+}
+
+.page-title {
+    color: #e74c3c; /* Red page title color */
+}
+
+.sub-title {
+    font-size: 18px;
+    color: #3498db; /* Blue sub-title color */
+}
+
+.destination-ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.destination-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.destName {
+    color: #3498db; /* Blue destination name color */
+}
+
+.destDesc {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555; /* Dark gray description text color */
+}

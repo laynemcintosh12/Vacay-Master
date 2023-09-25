@@ -1,24 +1,67 @@
-#googleMap{
-    width: 80%;
-    height: 400px;
-    margin: 10px auto;
-}
+/* Navbar CSS */
 
-#output {
-    text-align: center;
-    font: 2rem;
-}
-
-
-.tableText {
-    border: none;
-    background: transparent;
-    padding: 0;
+nav ul {
+    list-style-type: none;
     margin: 0;
-    width: 100%;
-    height: 100%;
+    padding: 0;
 }
 
-.tableInput {
+nav {
+    background-color: #3498db; /* Blue navbar background */
+    color: #fff; /* White text color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff; /* White link text color */
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    border-radius: 5px;
+}
+
+nav a.active {
+    background-color: #777;
+    font-weight: bold;
+}
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+    margin-right: 60px;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #3498db; /* Blue dropdown background */
+    width: 200px;
+    list-style: none;
     padding: 0;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
 }

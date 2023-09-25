@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="/static/blog.css">
+
+<div class="destination-details">
+    <h1 class="destination-title">{{ destination.name }}</h1>
+    <ul class="post-list">
+        {% for post in posts %}
+        <li class="post-item">
+            <h2 class="post-name">{{ post.name }}</h2>
+            <p class="post-description">{{ post.description }}</p>
+            <form action="/delete_post/{{ post.post_id }}" method="post">
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/route" class="btn btn-small btn-info">Map The Route</a>
+</div>
+
+{% endblock %}
