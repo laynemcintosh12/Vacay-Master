@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, flash, request, jso
 from other import read_api_key
 from models import db, connect_db, User, Destination, Post, Comment, Itinerary, Trip
 from forms import LoginForm, RegisterForm, CreateTripForm, PostForm, CommentForm
-from functions import generate_dates_between, get_itin
+from functions import generate_dates_between, get_itin, convert_numeric_to_hour
 from datetime import datetime
 
 app = Flask(__name__)
@@ -23,7 +23,6 @@ secret_key = read_api_key(secrets_file_path)
 If a user is logged out, they might be able to still see the home-logged.html
 Users might be able to delete other users posts
 Itinerary is saving properly however when a user clicks to see their itin from a past trip it doesnt autofill
-Dates must be saved under the trip_id instead of stored in the session ********************************************* NECESSARY
 """
 
 
@@ -119,14 +118,12 @@ def get_homepage():
                 user_id = user.user_id
 
                 # Add new trip to the database
-                new_trip = Trip(user_id=user_id, name=name)
+                new_trip = Trip(user_id=user_id, name=name, start_date=start_date, end_date=end_date)
                 db.session.add(new_trip)
                 db.session.commit()
                 
                 # Save start_date and end_date to the session
                 session['trip_id'] = new_trip.trip_id
-                session['start_date'] = start_date.strftime('%Y-%m-%d')
-                session['end_date'] = end_date.strftime('%Y-%m-%d')
 
                 # If user completes the form, redirect the user to destinations page
                 return redirect('/dest') 
@@ -153,11 +150,16 @@ def get_blog(dest_id):
 
     # Get destination from ID
     destination = Destination.query.get(dest_id)  
-
+    username = session.get('username')
+    
+    # Query the database to find the user by username
+    user = User.query.filter_by(username=username).first()
+    user_id = user.user_id
+    
     if destination:
         # Get specific posts based on dest_id
         posts = Post.query.filter_by(dest_id=dest_id).all()
-
+    
         # Query comments for all posts
         comments = Comment.query.filter(Comment.post_id.in_([post.post_id for post in posts])).all()
 
@@ -169,7 +171,7 @@ def get_blog(dest_id):
             trip.dest_id = destination.dest_id
             return redirect(f'/itin/{trip_id}')
 
-        return render_template('posts.html', destination=destination, posts=posts, comments=comments)
+        return render_template('posts.html', destination=destination, posts=posts, comments=comments, user_id=user_id)
     else:
         return redirect('/home')
 
@@ -261,35 +263,40 @@ def delete_post(post_id):
 def get_itinerary(trip_id):
     """Display table page where you can enter an itinerary for select dates"""
 
-    # Retrieve the selected dates from the session as strings
-    start_date_str = session.get('start_date')
-    end_date_str = session.get('end_date')
+    # Fetch the trip based on trip_id
+    trip = Trip.query.get(trip_id)
 
-    # Convert the date strings to Python datetime objects
-    start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-    end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+    # Retrieve the start_date and end_date from the trip
+    start_date = datetime.strptime(trip.start_date, '%Y-%m-%d').date()
+    end_date = datetime.strptime(trip.end_date, '%Y-%m-%d').date()
+    dates = generate_dates_between(start_date, end_date)
 
-    # Fetch the user's itinerary for the given trip
-    username = session.get('username')
-    user = User.query.filter_by(username=username).first()
+    if trip:
+        # Fetch the user's itinerary for the given trip
+        username = session.get('username')
+        user = User.query.filter_by(username=username).first()
 
-    if user:
-        user_id = user.user_id
+        if user:
+            user_id = user.user_id
 
-        # Fetch the itinerary based on user_id, trip_id, and date
-        itinerary_data = Itinerary.query.filter_by(user_id=user_id, trip_id=trip_id).all()
-        print(user_id)
-        print(trip_id)
-        print(itinerary_data)
-        itin = get_itin(itinerary_data)
-        
-        trip = Trip.query.get(trip_id)
+            # Fetch the itinerary based on user_id, trip_id, and date
+            itinerary_data = Itinerary.query.filter_by(user_id=user_id, trip_id=trip_id).all()
 
-        dates = generate_dates_between(start_date, end_date)
-        return render_template('itin.html', dates=dates, trip=trip, itinerary_data=itin)
+            # Convert numeric hours to the "8:00 AM" format in the itinerary_data
+            for itinerary_entry in itinerary_data:
+                itinerary_entry.hour = convert_numeric_to_hour(itinerary_entry.hour)
 
-    return render_template('itin.html', dates=[], trip=None, itinerary_data={})
+            if itinerary_data:
+                # Get Itinerary data into a dictionary for easier access
+                itinerary_dict = get_itin(itinerary_data)
 
+                # Check if the itinerary_dict has any values (val, date, or hour)
+                if itinerary_dict:
+                    print(itinerary_dict)
+                    return render_template('itin.html', dates=dates, trip=trip, itinerary_data=itinerary_dict)
+
+    # THIS SHOULD BE RENDERED WHEN A USER FIRST LOADS THE ITINERARY PAGE OR THERE IS NO ITINERARY DATA
+    return render_template('itin.html', dates=dates, trip=trip, itinerary_data={})
 
 
 
@@ -298,7 +305,6 @@ def get_itinerary(trip_id):
 def save_itinerary():
     if request.method == 'POST':
         # Retrieve data sent from the JavaScript code
-        print('something happend')
         data = request.json  # Use request.json to access JSON data
         val = data.get('val')
         hour = data.get('time')
@@ -349,6 +355,7 @@ def get_map():
 @app.route('/trips')
 def my_trips():
     # Query the database to retrieve the user's trips
+    session.pop('trip_id', None)
     username = session.get('username') 
     user = User.query.filter_by(username=username).first()
     trips = Trip.query.filter_by(user_id=user.user_id).all()

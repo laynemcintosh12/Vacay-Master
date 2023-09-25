@@ -2,12 +2,12 @@
 {% block content %}
 <link rel="stylesheet" href="/static/itin.css">
 
-<h1 class="trip-title">{{ trip.name }}</h1>
-<div class="itinerary-data">
-    {{ itinerary_data }}
+<div class="text-center">
+    <h1 class="trip-title">{{ trip.name }}</h1>
 </div>
+
 <div class="container">
-    <table class="table table-bordered table-striped">
+    <table class="table table-striped blue-background-table">
         <tr class="days-header">
             <th></th>
             {% for date in dates %}
@@ -21,9 +21,13 @@
             {% for date in dates %}
                 <td class="table-input" row="{{ outerloop.index }}" col="{{ loop.index }}">
                     {% if date != '' and hour != '' %}
-                        <textarea type="text" class="table-text">{{ itinerary_data[date][hour] }}</textarea>
+                        <textarea type="text" class="table-text">
+                            {% if date in itinerary_data and hour in itinerary_data[date] %}
+                                {{ itinerary_data[date][hour] }}
+                            {% endif %}
+                        </textarea>
                     {% else %}
-                        <textarea type="text" class="table-text">hello</textarea>
+                        <textarea type="text" class="table-text"></textarea>
                     {% endif %}
                 </td>
             {% endfor %}
@@ -38,3 +42,5 @@
 <script src="/static/itinerary.js"></script>
 
 {% endblock %}
+
+

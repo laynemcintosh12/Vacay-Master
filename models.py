@@ -45,7 +45,9 @@ class Trip(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     name = db.Column(db.String)
     dest_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'), nullable=True)
-    itin_id = db.Column(db.Integer, db.ForeignKey('itineraries.itin_id'), nullable=True)
+    itin_id = db.Column(db.Integer, db.ForeignKey('itineraries.itin_id', ondelete="cascade"), nullable=True, )
+    start_date = db.Column(db.String)
+    end_date = db.Column(db.String)
 
 
 
@@ -53,8 +55,8 @@ class Itinerary(db.Model):
     __tablename__ = "itineraries"
 
     itin_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    trip_id = db.Column(db.Integer, db.ForeignKey('trips.trip_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', ondelete="cascade"))
+    trip_id = db.Column(db.Integer, db.ForeignKey('trips.trip_id', ondelete="cascade"))
     date = db.Column(db.String)
     hour = db.Column(db.Integer)
     val = db.Column(db.String)
@@ -86,6 +88,7 @@ class Post(db.Model):
     __tablename__ = "posts"
 
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     dest_id = db.Column(db.Integer, db.ForeignKey('destinations.dest_id'))
     title = db.Column(db.String)
     description = db.Column(db.String)

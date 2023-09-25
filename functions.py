@@ -32,8 +32,27 @@ def get_itin(itinerary_data):
         if date not in itinerary_dict:
             itinerary_dict[date] = {}
 
+        # Store the val in the dictionary at the corresponding date and hour
         itinerary_dict[date][hour] = val
 
     return itinerary_dict
 
+
+def convert_numeric_to_hour(numeric_hour):
+    if numeric_hour < 0 or numeric_hour > 23:
+        return None  # Handle invalid values 
+    elif numeric_hour < 12:
+        period = "AM"
+        if numeric_hour == 0:
+            hour = 12
+        else:
+            hour = numeric_hour
+    else:
+        period = "PM"
+        if numeric_hour == 12:
+            hour = 12
+        else:
+            hour = numeric_hour - 12
+
+    return f"{hour}:00 {period}"
 

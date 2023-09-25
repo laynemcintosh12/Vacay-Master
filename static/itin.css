@@ -1,8 +1,17 @@
 /* styles.css */
 
+
 .trip-title {
+    text-align: center;
     color: #e74c3c; /* Red trip title color */
 }
+
+
+.blue-background-table {
+    background-color: #3498db; /* Blue table background color */
+    color: #fff; /* White text color for table */
+}
+
 
 .itinerary-data {
     margin-top: 20px;
@@ -11,7 +20,7 @@
 }
 
 .container {
-    max-width: 80%;
+    max-width: 95%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff; /* White container background */
