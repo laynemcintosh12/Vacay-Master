@@ -6,8 +6,8 @@ from functions import generate_dates_between, get_itin, convert_numeric_to_hour
 from datetime import datetime
 
 app = Flask(__name__)
-app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bjhmtowy:jR3wryK5XOEWJBFQfAXvn2IuxFdEAN_N@bubble.db.elephantsql.com/bjhmtowy'
+app.app_context().push() 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ezxjcxxf:nfTdUh6O4kzGJseQJS2hukgbu3Uc0HH5@mahmud.db.elephantsql.com/ezxjcxxf'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "shhhhh"
