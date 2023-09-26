@@ -7,7 +7,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bjhmtowy:jR3wryK5XOEWJBFQfAXvn2IuxFdEAN_N@bubble.db.elephantsql.com/bjhmtowy'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bjhmtowy:jR3wryK5XOEWJBFQfAXvn2IuxFdEAN_N@bubble.db.elephantsql.com/bjhmtowy'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "shhhhh"
