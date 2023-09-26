@@ -7,7 +7,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///vacay-master'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bjhmtowy:jR3wryK5XOEWJBFQfAXvn2IuxFdEAN_N@bubble.db.elephantsql.com/bjhmtowy'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "shhhhh"
@@ -17,14 +17,6 @@ db.create_all()
 
 secrets_file_path = 'secret.txt'
 secret_key = read_api_key(secrets_file_path)
-
-
-""" Issues:
-If a user is logged out, they might be able to still see the home-logged.html
-Users might be able to delete other users posts
-Itinerary is saving properly however when a user clicks to see their itin from a past trip it doesnt autofill
-"""
-
 
 
 
@@ -155,7 +147,7 @@ def get_blog(dest_id):
     # Query the database to find the user by username
     user = User.query.filter_by(username=username).first()
     user_id = user.user_id
-    
+
     if destination:
         # Get specific posts based on dest_id
         posts = Post.query.filter_by(dest_id=dest_id).all()

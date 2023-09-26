@@ -1,71 +1,59 @@
-/* Navbar CSS */
-
-nav ul {
-    list-style-type: none;
+/* navbar CSS */
+body {
     margin: 0;
-    padding: 0;
+    padding-top: 70px; /* Add padding to accommodate the fixed navbar */
 }
 
 nav {
-    background-color: #3498db; /* Blue navbar background */
-    color: #fff; /* White text color */
+    background-color: #3498db;
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    z-index: 1000; 
 }
 
 nav ul {
+    list-style-type: none;
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0; 
 }
 
 nav a {
     text-decoration: none;
-    color: #fff; /* White link text color */
+    color: #fff;
     padding: 10px 20px;
     transition: background-color 0.3s ease;
 }
 
 nav a:hover {
-    background-color: #2980b9; /* Darker blue on hover */
+    background-color: #2980b9;
     border-radius: 5px;
 }
 
-nav a.active {
-    background-color: #777;
-    font-weight: bold;
+
+
+.container {
+    padding-top: 10px; 
 }
 
-.dropdown {
-    display: inline-block;
-    position: relative;
-    margin-right: 60px;
-}
 
-.dropdown-toggle {
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #3498db; /* Blue dropdown background */
-    width: 200px;
-    list-style: none;
-    padding: 0;
-}
-
-.dropdown-menu li {
-    padding: 10px;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-a {
-    margin-top: 15px;
+.right-align {
+    margin-left: 70vw;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+    align-items: center;
 }
