@@ -3,7 +3,7 @@
     <div class="container">
         <h1>{{ destination.name }}</h1>
         <p>{{ destination.description }}</p>
-        <form method="POST" action="/blog/{{ destination.dest_id }}">
+        <form method="POST" action="/blog/accept/{{ destination.dest_id }}">
             <button type="submit" class="btn btn-primary">I Want To Go Here!</button>
         </form>
         <hr>

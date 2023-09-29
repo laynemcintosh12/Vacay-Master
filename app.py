@@ -7,7 +7,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.app_context().push() 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://iddphrko:M3tttKmZ9XjSP5MZjjAqt-R3T4m2cKVl@mahmud.db.elephantsql.com/iddphrko'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dsgkokbu:sctoavV_-xnJ7TQYUAK8u8YKEmTp7vgg@bubble.db.elephantsql.com/dsgkokbu'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "shhhhh"
@@ -155,18 +155,21 @@ def get_blog(dest_id):
         # Query comments for all posts
         comments = Comment.query.filter(Comment.post_id.in_([post.post_id for post in posts])).all()
 
-        if request.method == 'POST':
-            # handle user locking in their trip destination
-            session['dest_id'] = dest_id
-            trip_id = session.get('trip_id')
-            trip = Trip.query.get(trip_id)
-            trip.dest_id = destination.dest_id
-            return redirect(f'/itin/{trip_id}')
+        
 
         return render_template('posts.html', destination=destination, posts=posts, comments=comments, user_id=user_id)
     else:
         return redirect('/home')
 
+
+@app.route('/blog/accept/<int:dest_id>', methods=['POST'])
+def accept_destination(dest_id):
+    # handle user locking in their trip destination
+    trip_id = session.get('trip_id')
+    trip = Trip.query.get(trip_id)
+    trip.dest_id = dest_id
+    db.session.commit()
+    return redirect(f'/itin/{trip_id}')
     
 
 
@@ -303,9 +306,6 @@ def save_itinerary():
         date = data.get('date')
         username = session.get('username')
         user = User.query.filter_by(username=username).first()
-        print(val)
-        print(hour)
-        print(date)
         if user:
             user_id = user.user_id
             trip_id = session.get('trip_id')
@@ -318,6 +318,7 @@ def save_itinerary():
             # Add itinerary to the trip 
             trip = Trip.query.get(trip_id)
             trip.itin_id = itinerary.itin_id
+            db.session.commit()
             
 
         return jsonify({"message": "Data saved successfully"})
