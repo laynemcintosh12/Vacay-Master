@@ -4,6 +4,7 @@ from models import db, connect_db, User, Destination, Post, Comment, Itinerary, 
 from forms import LoginForm, RegisterForm, CreateTripForm, PostForm, CommentForm
 from functions import generate_dates_between, get_itin, convert_military_time_to_integer
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 app.app_context().push() 
@@ -52,29 +53,35 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
-    """register a new user"""
+    """Register a new user"""
 
-    # if user is logged in, redirect to home page
+    # If the user is already logged in, redirect to the home page
     if "username" in session:
         return redirect("/")
-    
+
     form = RegisterForm()
     if form.validate_on_submit():
-        # get form data
+        # Get form data
         username = form.username.data
         password = form.password.data
         email = form.email.data
 
-        # add user to database
-        user = User.register(username, password, email)
-        db.session.commit()
+        try:
+            # Attempt to add the user to the database
+            user = User.register(username, password, email)
+            db.session.commit()
 
-        # add username to session, flash welcome message, redirect to home page
-        session['username'] = user.username
-        flash(f"Welcome {user.username}!")
-        return redirect("/")
-    else:
-        return render_template("signup.html", form=form)
+            # Add the username to the session, flash a welcome message, and redirect to the home page
+            session['username'] = user.username
+            flash(f"Welcome, {user.username}!")
+            return redirect("/")
+        except IntegrityError:
+            # Handle the case where the username or email already exists
+            db.session.rollback()  # Rollback the session to avoid conflicts
+            flash("Username or email already exists. Please choose a different one.")
+    
+    return render_template("signup.html", form=form)
+
 
 
 
