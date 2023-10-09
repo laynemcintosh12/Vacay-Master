@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, flash, request, jso
 from other import read_api_key
 from models import db, connect_db, User, Destination, Post, Comment, Itinerary, Trip
 from forms import LoginForm, RegisterForm, CreateTripForm, PostForm, CommentForm
-from functions import generate_dates_between, get_itin, convert_numeric_to_hour
+from functions import generate_dates_between, get_itin, convert_military_time_to_integer
 from datetime import datetime
 
 app = Flask(__name__)
@@ -277,10 +277,6 @@ def get_itinerary(trip_id):
             # Fetch the itinerary based on user_id, trip_id, and date
             itinerary_data = Itinerary.query.filter_by(user_id=user_id, trip_id=trip_id).all()
 
-            # Convert numeric hours to the "8:00 AM" format in the itinerary_data
-            for itinerary_entry in itinerary_data:
-                itinerary_entry.hour = convert_numeric_to_hour(itinerary_entry.hour)
-
             if itinerary_data:
                 # Get Itinerary data into a dictionary for easier access
                 itinerary_dict = get_itin(itinerary_data)
@@ -294,13 +290,11 @@ def get_itinerary(trip_id):
     return render_template('itin.html', dates=dates, trip=trip, itinerary_data={})
 
 
-
-
 @app.route('/save_itinerary', methods=['POST'])
 def save_itinerary():
     if request.method == 'POST':
         # Retrieve data sent from the JavaScript code
-        data = request.json  # Use request.json to access JSON data
+        data = request.json  
         val = data.get('val')
         hour = data.get('time')
         date = data.get('date')
@@ -309,6 +303,9 @@ def save_itinerary():
         if user:
             user_id = user.user_id
             trip_id = session.get('trip_id')
+
+            # Convert the military time (e.g., "08:00") to an integer (e.g., 800)
+            hour = convert_military_time_to_integer(hour)
 
             # Create a new Itinerary and add it to the database
             itinerary = Itinerary(user_id=user_id, trip_id=trip_id, date=date, hour=hour, val=val)
@@ -320,10 +317,13 @@ def save_itinerary():
             trip.itin_id = itinerary.itin_id
             db.session.commit()
             
-
         return jsonify({"message": "Data saved successfully"})
 
     return jsonify({"message": "Invalid request"})
+
+
+
+
 
 
 
