@@ -1,5 +1,7 @@
+    // get trip_id
+    const tripId = document.getElementById('tripId').value;
 
-    
+
     // Get all textarea elements with class 'table-text'
     const textAreas = document.querySelectorAll('.table-text');
 
@@ -30,13 +32,14 @@
     // Function to send data to the backend
     async function sendDataToBackend(val, time, date) {
         try {
-            console.log(val , time , date)
+            console.log(val, time, date, tripId); // Log the trip_id
             const response = await axios.post('/save_itinerary', {
                 val: val,
                 time: time,
-                date: date
+                date: date,
+                tripId: tripId // Send the trip_id to the backend
             });
-
+    
             // Handle a successful response if needed
             if (response.status === 200) {
                 console.log('Data saved successfully');
