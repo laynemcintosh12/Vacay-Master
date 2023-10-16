@@ -40,10 +40,9 @@ def get_itin(itinerary_data):
 
 
 def convert_military_time_to_integer(military_time):
-    time_parts = military_time.split(':')
-    if len(time_parts) == 2:
-        hours = int(time_parts[0])
-        minutes = int(time_parts[1])
+    if len(military_time) == 2:
+        hours = int(military_time[0])
+        minutes = int(military_time[1])
         return hours * 100 + minutes
     return 0 
 
