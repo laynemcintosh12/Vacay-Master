@@ -312,7 +312,7 @@ def save_itinerary():
             trip_id = session.get('trip_id')
 
             # Convert the military time (e.g., "08:00") to an integer (e.g., 800)
-            hour = convert_military_time_to_integer(hour)
+            # hour = convert_military_time_to_integer(hour)
 
             # Create a new Itinerary and add it to the database
             itinerary = Itinerary(user_id=user_id, trip_id=trip_id, date=date, hour=hour, val=val)
